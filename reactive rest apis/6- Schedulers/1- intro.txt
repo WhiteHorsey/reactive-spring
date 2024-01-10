@@ -1,0 +1,14 @@
+Schedulers are used to perform tasks asynchronously.
+	--> immediate : default --> running on a signle thread on a main thread
+	--> parallel --> perform different tasks on different threads, heavy competition to perform.
+ 	--> single
+	--> boundedelastic
+
+
+
+parallel(): Optimized for fast Runnable non-blocking executions
+single(): Optimized for low-latency Runnable one-off executions
+elastic(): Optimized for longer executions, an alternative for blocking tasks where the number of active tasks (and threads) can grow indefinitely
+boundedElastic(): Optimized for longer executions, an alternative for blocking tasks where the number of active tasks (and threads) is capped
+immediate(): to immediately run submitted Runnable instead of scheduling them (somewhat of a no-op or "null object" Scheduler)
+fromExecutorService(ExecutorService) to create new instances around Executors

@@ -1,0 +1,49 @@
+Flux<Integer> intFlux = Flux.range(1, 10).log();
+
+//      intFlux.subscribe(System.out::println,
+//            e -> System.out.println(e.getMessage()),
+//            () -> System.out.println("Completed"));
+
+intFlux.subscribe(new BaseSubscriber<Integer>() {
+                           @Override
+                           protected void hookOnSubscribe(Subscription subscription) {
+                              for (int i = 0; i <= 5 ; i++) {
+                                 subscription.request(2);
+                              }
+                           }
+
+                           @Override
+                           protected void hookOnNext(Integer value) {
+                              if(value == 3){
+                                 cancel();
+                              }
+                              System.out.println(value);
+                           }
+
+                           @Override
+                           protected void hookOnComplete() {
+                              System.out.println("Completed");
+                           }
+
+                           @Override
+                           protected void hookOnError(Throwable throwable) {
+                              throwable.printStackTrace();
+                           }
+                        }
+      );
+   }
+
+2022-05-30 15:11:39.541  INFO 14652 --- [           main] reactor.Flux.Range.1                     : | onSubscribe([Synchronous Fuseable] FluxRange.RangeSubscription)
+2022-05-30 15:11:39.541  INFO 14652 --- [           main] reactor.Flux.Range.1                     : | request(2)
+2022-05-30 15:11:39.541  INFO 14652 --- [           main] reactor.Flux.Range.1                     : | onNext(1)
+1
+2022-05-30 15:11:39.541  INFO 14652 --- [           main] reactor.Flux.Range.1                     : | onNext(2)
+2
+2022-05-30 15:11:39.541  INFO 14652 --- [           main] reactor.Flux.Range.1                     : | request(2)
+2022-05-30 15:11:39.541  INFO 14652 --- [           main] reactor.Flux.Range.1                     : | onNext(3)
+2022-05-30 15:11:39.541  INFO 14652 --- [           main] reactor.Flux.Range.1                     : | cancel()
+3
+2022-05-30 15:11:39.541  INFO 14652 --- [           main] reactor.Flux.Range.1                     : | request(2)
+2022-05-30 15:11:39.541  INFO 14652 --- [           main] reactor.Flux.Range.1                     : | request(2)
+2022-05-30 15:11:39.541  INFO 14652 --- [           main] reactor.Flux.Range.1                     : | request(2)
+2022-05-30 15:11:39.541  INFO 14652 --- [           main] reactor.Flux.Range.1                     : | request(2)

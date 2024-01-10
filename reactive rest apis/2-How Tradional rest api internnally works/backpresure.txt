@@ -1,0 +1,23 @@
+we ha have a water faucet (source of data) and a bucket (receiver) , the receiver has full controll of the flow of the data comming
+from the source we can slow down the speed or increase or stop it completely.
+
+/////////////////// REAL WORLD EXAMPLE ///////////////////
+
+spring boot -------- findAll() --------> database.
+
+for example spring boot app is not able to handle the amount of incoming data (out of ressources).
+there is no way spring can say : hey can you slown down i am out of resources, give me some time, and you (source) slown down
+and i will try to rearenge the ressources.
+
+
+
+
+
+
+
+------------------------->  CHALLEGNGES:
+
+1- Synchronous and blocking
+2- thread per request model. (handle lot of request at the same time).
+3- Not supporting bakc pressure.
+

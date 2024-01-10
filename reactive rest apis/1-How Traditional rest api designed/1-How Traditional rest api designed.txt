@@ -1,0 +1,20 @@
+
+public OrderResponse getOrder(long id){
+	OrderResponse orderResponse = new OrderResponse();
+
+	// 5ms --> get from db
+	Order order = orderEpository.findById(id);
+	// 5ms --> external call
+	CourierDetails courierDetails = restTemplate...
+
+	orderResponse.setOrder(order);
+	orderResponse.setCourierDetails(courierDetails);
+
+	return orderResponse;
+}
+
+execution is blocked when communicating with database, waiting for the response, only when receive it will move on
+execution is blocked when communicating with rest TEMMPLATE, waiting for the response, only when receive it will move on
+THEN CREATE RESPONSE AND RETURN IT.
+
+--> SYN MANER, BLOCKER MANER

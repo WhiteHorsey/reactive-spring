@@ -1,0 +1,16 @@
+Flux<String> stringFlux = Flux.just("Jamal", "Mounir", "Mouad","AAA")
+            .filter(s -> s.length() > 3)
+            .log();
+stringFlux.subscribe(System.out::println);
+
+
+
+2022-05-30 14:29:41.815  INFO 8576 --- [           main] reactor.Flux.FilterFuseable.1            : | onSubscribe([Fuseable] FluxFilterFuseable.FilterFuseableSubscriber)
+2022-05-30 14:29:41.830  INFO 8576 --- [           main] reactor.Flux.FilterFuseable.1            : | request(unbounded)
+2022-05-30 14:29:41.830  INFO 8576 --- [           main] reactor.Flux.FilterFuseable.1            : | onNext(Jamal)
+Jamal
+2022-05-30 14:29:41.830  INFO 8576 --- [           main] reactor.Flux.FilterFuseable.1            : | onNext(Mounir)
+Mounir
+2022-05-30 14:29:41.830  INFO 8576 --- [           main] reactor.Flux.FilterFuseable.1            : | onNext(Mouad)
+Mouad
+2022-05-30 14:29:41.830  INFO 8576 --- [           main] reactor.Flux.FilterFuseable.1            : | onComplete()

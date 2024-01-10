@@ -1,0 +1,44 @@
+System.out.println("Started with : " + Thread.currentThread().getName());
+
+      /// FROM HERE RUN FROM AN OTHER THREAD
+      Flux<Long> orderFlux = Flux.just(
+                  new Order(1L, 100.0),
+                  new Order(2L, 200.0),
+                  new Order(3L, 300.0)
+            )
+            .publishOn(Schedulers.parallel()) // CREATE AN OTHER THREAD
+            /// FROM HERE NEW THREAD 1
+            .map(order -> {
+               System.out.println("MAP 1  with : " + Thread.currentThread().getName());
+               return order.getId();
+            })
+            .publishOn(Schedulers.newParallel("my-paralell"))  // CREATE AN OTHER THREAD
+            /// FROM HERE NEW THREAD 2
+            .map(order -> {
+               System.out.println("MAP 2  with : " + Thread.currentThread().getName());
+               return order * 2;
+            })// TO HERE END 2
+            // TO HERE END 1
+            .log();
+
+      orderFlux.subscribe(orderId -> System.out.println("SUB with : " + Thread.currentThread().getName()));
+      ///// TO HERE
+
+
+
+Started with : main
+2022-05-30 15:42:34.875  INFO 4056 --- [           main] reactor.Flux.MapFuseable.1               : | onSubscribe([Fuseable] FluxMapFuseable.MapFuseableSubscriber)
+2022-05-30 15:42:34.875  INFO 4056 --- [           main] reactor.Flux.MapFuseable.1               : | request(unbounded)
+MAP 1  with : parallel-2
+MAP 1  with : parallel-2
+MAP 1  with : parallel-2
+MAP 2  with : my-paralell-1
+2022-05-30 15:42:34.875  INFO 4056 --- [  my-paralell-1] reactor.Flux.MapFuseable.1               : | onNext(2)
+SUB with : my-paralell-1
+MAP 2  with : my-paralell-1
+2022-05-30 15:42:34.875  INFO 4056 --- [  my-paralell-1] reactor.Flux.MapFuseable.1               : | onNext(4)
+SUB with : my-paralell-1
+MAP 2  with : my-paralell-1
+2022-05-30 15:42:34.875  INFO 4056 --- [  my-paralell-1] reactor.Flux.MapFuseable.1               : | onNext(6)
+SUB with : my-paralell-1
+2022-05-30 15:42:34.875  INFO 4056 --- [  my-paralell-1] reactor.Flux.MapFuseable.1               : | onComplete()

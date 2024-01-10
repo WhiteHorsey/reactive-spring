@@ -1,0 +1,13 @@
+Flux<Long> orderFlux = Flux.just(
+            new Order(1L, 100.0),
+            new Order(2L, 200.0),
+            new Order(3L, 300.0)
+      )
+            .filter(order -> order.getAmount() >= 200)
+            .map(order -> order.getId());
+
+      orderFlux.subscribe(System.out::println);
+
+// OUTPUT
+2
+3

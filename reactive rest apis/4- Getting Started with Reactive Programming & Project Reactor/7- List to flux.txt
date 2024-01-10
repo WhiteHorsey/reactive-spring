@@ -1,0 +1,8 @@
+// INIT LIST
+List<String> list = Arrays.asList("Jamal","Mounir","Mouad");
+
+// CONVERT TO FLUX
+Flux<String> stringFlux = Flux.fromIterable(list).log();
+
+// SHOW
+stringFlux.subscribe(System.out::println);

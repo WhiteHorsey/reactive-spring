@@ -1,0 +1,11 @@
+///// FLUX 
+Flux<?> emptyFlux = Flux.empty().log();
+emptyFlux.subscribe(System.out::println);
+
+///// FLUX
+Mono<?> emptyMono = Mono.empty().log();
+emptyMono.subscribe(System.out::println);
+
+
+Mono<?> emptyMono = Mono.justOrEmpty(null).log();
+emptyMono.subscribe(System.out::println);

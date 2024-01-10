@@ -1,0 +1,58 @@
+// INIT LIST
+List<String> list = Arrays.asList("Jamal","Mounir","Mouad");
+// LIST TO STREAM
+Stream<String> stream = list.stream();
+// CONVERT TO STREAM
+Flux<String> stringFlux = Flux.fromStream(stream).log();
+// SHOW
+stringFlux.subscribe(System.out::println);
+
+
+2022-05-30 14:19:03.462  INFO 10268 --- [           main] reactor.Flux.Stream.1                    : | onSubscribe([Synchronous Fuseable] FluxIterable.IterableSubscription)
+2022-05-30 14:19:03.462  INFO 10268 --- [           main] reactor.Flux.Stream.1                    : | request(unbounded)
+2022-05-30 14:19:03.462  INFO 10268 --- [           main] reactor.Flux.Stream.1                    : | onNext(Jamal)
+Jamal
+2022-05-30 14:19:03.462  INFO 10268 --- [           main] reactor.Flux.Stream.1                    : | onNext(Mounir)
+Mounir
+2022-05-30 14:19:03.462  INFO 10268 --- [           main] reactor.Flux.Stream.1                    : | onNext(Mouad)
+Mouad
+2022-05-30 14:19:03.462  INFO 10268 --- [           main] reactor.Flux.Stream.1                    : | onComplete()
+
+
+
+
+////////////////// EMPTY
+// INIT LIST
+List<String> list = Arrays.asList();
+// LIST TO STREAM
+Stream<String> stream = list.stream();
+// CONVERT TO STREAM
+Flux<String> stringFlux = Flux.fromStream(stream).log();
+// SHOW
+stringFlux.subscribe(System.out::println);
+
+2022-05-30 14:17:47.540  INFO 9688 --- [           main] reactor.Flux.Stream.1                    : | onSubscribe([Fuseable] Operators.EmptySubscription)
+2022-05-30 14:17:47.540  INFO 9688 --- [           main] reactor.Flux.Stream.1                    : | request(unbounded)
+2022-05-30 14:17:47.540  INFO 9688 --- [           main] reactor.Flux.Stream.1                    : | onComplete()
+
+
+
+
+
+
+
+
+
+////////////////// NULL
+// INIT LIST
+List<String> list = null;
+// LIST TO STREAM
+Stream<String> stream = list.stream();
+// CONVERT TO STREAM
+Flux<String> stringFlux = Flux.fromStream(stream).log();
+// SHOW
+stringFlux.subscribe(System.out::println);
+
+
+Exception in thread "main" java.lang.NullPointerException
+	at com.reactive.ReactiveProject.ReactiveProjectApplication.main(ReactiveProjectApplication.java:22)

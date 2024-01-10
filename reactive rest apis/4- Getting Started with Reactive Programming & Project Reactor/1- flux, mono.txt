@@ -1,0 +1,21 @@
+Reactive Types like data types in java.
+
+
+Flux : multiple data 0..N ELements , Flux can be empty like lists.
+Mono : single data 0..1 Element.
+
+
+///////// INITALIZE A FLUX
+Flux<String> stringFlux = Flux.just("Jamal", "Mounir", "Mouad");
+
+///////// ADD ITEM Method 1
+stringFlux = stringFlux.concatWithValues("AdnaneDin");
+
+///////// ADD ITEM Method 2
+Flux<String> secondFlux = Flux.just("Adnane");
+stringFlux.concatWith(secondFlux);
+
+///////// Subscribe a Consumer to this Flux that will consume all the elements in the sequence.
+stringFlux.subscribe(System.out::println);
+
+

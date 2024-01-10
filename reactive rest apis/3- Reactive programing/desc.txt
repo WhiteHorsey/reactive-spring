@@ -1,0 +1,37 @@
+//////////////////////////////// INTRO ////////////////////////////////
+
+1- declarative programming paradigm
+2- Asynchronous and non blocking
+3- Data flow with event (mesage) driven system.
+4- Supports back pressure.
+5- Functional style coding.
+
+//////////////////////////////// EVENT DRIVEN STREAM ////////////////////////////////
+for example we have 10 records in db
+---------			--------
+|	|--------findAll()----->|	|
+|	|<--return immediatly---|	|
+|Spring |<--onNext()------------|Db	|
+|App    |<--onNext()------------|	|
+|	|<--onNext()------------|	|
+|-------|<--onComplete()--------|-------|
+
+each on next method will return a record for example until oncomplete()
+
+////////// ERROR
+---------			--------
+|	|--------findAll()----->|	|
+|	|<--return immediatly---|	|
+|Spring |<--onNext()------------|Db	|
+|App    |<--onNext()------------|	|
+|	|<-----error------------|	|
+|-------|<--onError()-----------|-------|
+
+/////////// SAVE
+---------			--------
+|	|--------findAll()----->|	|
+|	|<--return immediatly---|	|
+|Spring |			|Db	|
+|App    |			|	|
+|	|			|	|
+|-------|<--onComplete()--------|-------|

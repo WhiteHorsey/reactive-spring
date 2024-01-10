@@ -1,0 +1,3 @@
+
+///////// TO SEE LOGS
+Flux<String> stringFlux = Flux.just("Jamal", "Mounir", "Mouad").log();

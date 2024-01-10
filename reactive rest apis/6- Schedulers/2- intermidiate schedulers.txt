@@ -1,0 +1,35 @@
+System.out.println("Started with : " + Thread.currentThread().getName());
+
+ Flux<Long> orderFlux = Flux.just(
+                  new Order(1L, 100.0),
+                  new Order(2L, 200.0),
+                  new Order(3L, 300.0)
+            )
+            .publishOn(Schedulers.immediate()) // stick with the thread that you started with
+            .map(order -> {
+               System.out.println("MAP  with : " + Thread.currentThread().getName());
+               return order.getId();
+            });
+
+orderFlux.subscribe(orderId -> System.out.println("SUB with : " + Thread.currentThread().getName()));
+
+
+
+// OUTPUT
+
+Started with : main
+2022-05-30 15:26:12.518  INFO 10500 --- [           main] reactor.Flux.MapFuseable.1               : | onSubscribe([Fuseable] FluxMapFuseable.MapFuseableSubscriber)
+2022-05-30 15:26:12.518  INFO 10500 --- [           main] reactor.Flux.MapFuseable.1               : | request(unbounded)
+MAP  with : main
+2022-05-30 15:26:12.518  INFO 10500 --- [           main] reactor.Flux.MapFuseable.1               : | onNext(1)
+SUB with : main
+
+MAP  with : main
+2022-05-30 15:26:12.518  INFO 10500 --- [           main] reactor.Flux.MapFuseable.1               : | onNext(2)
+SUB with : main
+
+MAP  with : main
+2022-05-30 15:26:12.518  INFO 10500 --- [           main] reactor.Flux.MapFuseable.1               : | onNext(3)
+SUB with : main
+
+2022-05-30 15:26:12.518  INFO 10500 --- [           main] reactor.Flux.MapFuseable.1               : | onComplete()

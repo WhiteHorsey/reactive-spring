@@ -1,0 +1,32 @@
+Flux<Integer> integerFlux = Flux.range(start:5,count:10).log(); // 5 --> 14
+// SHOW
+integerFlux.subscribe(System.out::println);
+
+------------------> if count 1 --> return 5;
+------------------> if count 0 --> return empty();
+
+
+
+2022-05-30 14:24:22.939  INFO 16984 --- [           main] reactor.Flux.Range.1                     : | onSubscribe([Synchronous Fuseable] FluxRange.RangeSubscription)
+2022-05-30 14:24:22.939  INFO 16984 --- [           main] reactor.Flux.Range.1                     : | request(unbounded)
+2022-05-30 14:24:22.939  INFO 16984 --- [           main] reactor.Flux.Range.1                     : | onNext(5)
+5
+2022-05-30 14:24:22.939  INFO 16984 --- [           main] reactor.Flux.Range.1                     : | onNext(6)
+6
+2022-05-30 14:24:22.939  INFO 16984 --- [           main] reactor.Flux.Range.1                     : | onNext(7)
+7
+2022-05-30 14:24:22.939  INFO 16984 --- [           main] reactor.Flux.Range.1                     : | onNext(8)
+8
+2022-05-30 14:24:22.939  INFO 16984 --- [           main] reactor.Flux.Range.1                     : | onNext(9)
+9
+2022-05-30 14:24:22.939  INFO 16984 --- [           main] reactor.Flux.Range.1                     : | onNext(10)
+10
+2022-05-30 14:24:22.939  INFO 16984 --- [           main] reactor.Flux.Range.1                     : | onNext(11)
+11
+2022-05-30 14:24:22.939  INFO 16984 --- [           main] reactor.Flux.Range.1                     : | onNext(12)
+12
+2022-05-30 14:24:22.939  INFO 16984 --- [           main] reactor.Flux.Range.1                     : | onNext(13)
+13
+2022-05-30 14:24:22.939  INFO 16984 --- [           main] reactor.Flux.Range.1                     : | onNext(14)
+14
+2022-05-30 14:24:22.939  INFO 16984 --- [           main] reactor.Flux.Range.1                     : | onComplete()

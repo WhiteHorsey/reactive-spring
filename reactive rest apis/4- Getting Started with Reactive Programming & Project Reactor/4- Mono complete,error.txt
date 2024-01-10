@@ -1,0 +1,12 @@
+//////// MONO 
+Mono<String> stringMono = Mono.just("Jamal")
+            .log();
+      stringMono.subscribe(System.out::println);
+
+
+
+/////////// MONO ERROR
+Mono<Object> stringMono = Mono.error(new RuntimeException())
+            .log();
+      stringMono.subscribe(System.out::println, e -> System.out.println("e.getMessage()")
+, e -> System.out.println("success"));

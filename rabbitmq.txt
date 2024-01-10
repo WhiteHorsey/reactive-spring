@@ -1,0 +1,21 @@
+Installation :
+	1- https://www.erlang.org/downloads -> download erlang 24 windows 64 bits
+	2- https://www.rabbitmq.com/install-windows.html -> rabbitmq-server-3.10.1.exe
+	3- Check if exists .erlang.cookie C:\windows\system32\config\systemprofile in and  C:\Users\U480401 
+		else copy .erlang.cookie from  C:\windows\system32\config\systemprofile and paste it in C:\Users\U480401
+	4- Create a system environment variable RABBITMQ_SERVER for "C:\Program Files\RabbitMQ Server\rabbitmq_server-3.10.1".
+	5- update path --> add %RABBITMQ_SERVER%\sbin
+	6- Enable rabbitmq powershell admin : rabbitmq-plugins enable rabbitmq_management --> RESULT
+		Enabling plugins on node rabbit@MININT-OKP35UE:
+		rabbitmq_management
+		The following plugins have been configured:
+  			rabbitmq_management
+  			rabbitmq_management_agent
+  			rabbitmq_web_dispatch
+		Applying plugin configuration to rabbit@MININT-OKP35UE...
+		The following plugins have been enabled:
+  			rabbitmq_management
+  			rabbitmq_management_agent
+  			rabbitmq_web_dispatch
+		started 3 plugins.
+	7- Access localhost:15672

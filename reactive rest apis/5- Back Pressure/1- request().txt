@@ -1,0 +1,106 @@
+Flux<Integer> intFlux = Flux.range(1, 10).log();
+
+//      intFlux.subscribe(System.out::println,
+//            e -> System.out.println(e.getMessage()),
+//            () -> System.out.println("Completed"));
+
+intFlux.subscribe(new BaseSubscriber<Integer>() {
+                           @Override
+                           protected void hookOnSubscribe(Subscription subscription) {
+                              	subscription.request(5); 	----------------------------------------------> OVERRIDE THIS
+					------> this will return only 5 elements, there is no onComplete();    onComplete() is executed only if all elements are retreuved.
+
+				subscription.request(10); 	
+					------> onComplete() is executed
+
+					
+				for (int i = 0; i <= 5 ; i++) { ------> return 2 elements at a time untill all elements are consumed    
+                                 	subscription.request(2);
+                              	}
+                           }
+
+                           @Override
+                           protected void hookOnNext(Integer value) {
+                              System.out.println(value);	----------------------------------------------> OVERRIDE THIS
+                           }
+
+                           @Override
+                           protected void hookOnComplete() {
+                              System.out.println("Completed");	----------------------------------------------> OVERRIDE THIS
+                           }
+
+                           @Override
+                           protected void hookOnError(Throwable throwable) {
+                              throwable.printStackTrace();	----------------------------------------------> OVERRIDE THIS
+                           }
+
+                           @Override
+                           protected void hookOnCancel() {
+                              super.hookOnCancel();
+                           }
+                        }
+);
+
+
+
+2022-05-30 14:58:04.121  INFO 4332 --- [           main] reactor.Flux.Range.1                     : | onSubscribe([Synchronous Fuseable] FluxRange.RangeSubscription)
+2022-05-30 14:58:04.121  INFO 4332 --- [           main] reactor.Flux.Range.1                     : | request(5)
+2022-05-30 14:58:04.121  INFO 4332 --- [           main] reactor.Flux.Range.1                     : | onNext(1)
+1
+2022-05-30 14:58:04.121  INFO 4332 --- [           main] reactor.Flux.Range.1                     : | onNext(2)
+2
+2022-05-30 14:58:04.121  INFO 4332 --- [           main] reactor.Flux.Range.1                     : | onNext(3)
+3
+2022-05-30 14:58:04.121  INFO 4332 --- [           main] reactor.Flux.Range.1                     : | onNext(4)
+4
+2022-05-30 14:58:04.121  INFO 4332 --- [           main] reactor.Flux.Range.1                     : | onNext(5)
+5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///// 2 at a time
+
+
+
+
+2022-05-30 16:37:31.033  INFO 2032 --- [           main] reactor.Flux.Range.1                     : | onSubscribe([Synchronous Fuseable] FluxRange.RangeSubscription)
+2022-05-30 16:37:31.033  INFO 2032 --- [           main] reactor.Flux.Range.1                     : | request(2)
+2022-05-30 16:37:31.033  INFO 2032 --- [           main] reactor.Flux.Range.1                     : | onNext(1)
+1
+2022-05-30 16:37:31.033  INFO 2032 --- [           main] reactor.Flux.Range.1                     : | onNext(2)
+2
+2022-05-30 16:37:31.033  INFO 2032 --- [           main] reactor.Flux.Range.1                     : | request(2)
+2022-05-30 16:37:31.033  INFO 2032 --- [           main] reactor.Flux.Range.1                     : | onNext(3)
+3
+2022-05-30 16:37:31.033  INFO 2032 --- [           main] reactor.Flux.Range.1                     : | onNext(4)
+4
+2022-05-30 16:37:31.033  INFO 2032 --- [           main] reactor.Flux.Range.1                     : | request(2)
+2022-05-30 16:37:31.033  INFO 2032 --- [           main] reactor.Flux.Range.1                     : | onNext(5)
+5
+2022-05-30 16:37:31.033  INFO 2032 --- [           main] reactor.Flux.Range.1                     : | onNext(6)
+6
+2022-05-30 16:37:31.033  INFO 2032 --- [           main] reactor.Flux.Range.1                     : | request(2)
+2022-05-30 16:37:31.033  INFO 2032 --- [           main] reactor.Flux.Range.1                     : | onNext(7)
+7
+2022-05-30 16:37:31.033  INFO 2032 --- [           main] reactor.Flux.Range.1                     : | onNext(8)
+8
+2022-05-30 16:37:31.033  INFO 2032 --- [           main] reactor.Flux.Range.1                     : | request(2)
+2022-05-30 16:37:31.033  INFO 2032 --- [           main] reactor.Flux.Range.1                     : | onNext(9)
+9
+2022-05-30 16:37:31.033  INFO 2032 --- [           main] reactor.Flux.Range.1                     : | onNext(10)
+10
+2022-05-30 16:37:31.033  INFO 2032 --- [           main] reactor.Flux.Range.1                     : | onComplete()
+Completed
+2022-05-30 16:37:31.033  INFO 2032 --- [           main] reactor.Flux.Range.1                     : | request(2)
+

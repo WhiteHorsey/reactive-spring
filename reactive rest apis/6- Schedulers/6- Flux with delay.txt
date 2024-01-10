@@ -1,0 +1,36 @@
+System.out.println("Starting thread :" + Thread.currentThread().getName());
+Flux<Long> fluxLong = Flux.just(1L,2L,3L)
+            .delayElements(Duration.ofSeconds(1));
+fluxLong.subscribe(item -> {
+         System.out.println("item :" + item + " sub thread :" + Thread.currentThread().getName());
+      });
+
+Delay between elements in each return
+
+Starting thread :main
+item :1 sub thread :parallel-1
+item :2 sub thread :parallel-2
+item :3 sub thread :parallel-3
+
+
+
+
+
+
+
+
+/////////// SINGLE THREAD
+System.out.println("Starting thread :" + Thread.currentThread().getName());
+      Flux<Long> fluxLong = Flux.just(1L,2L,3L)
+
+            .delayElements(Duration.ofSeconds(1)).publishOn(Schedulers.single());
+      fluxLong.subscribe(item -> {
+         System.out.println("item :" + item + " sub thread :" + Thread.currentThread().getName());
+      });
+
+
+
+Starting thread :main
+item :1 sub thread :single-1
+item :2 sub thread :single-1
+item :3 sub thread :single-1

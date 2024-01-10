@@ -1,0 +1,6 @@
+git et mercurial outil de gestion de control decentralisé
+svn = subersion = outil de gestion de control centralisé
+
+https -> login a chque fois
+ssh -> generer avec ssh-keygen une paire de cléfs pub et priv --> enregistrer la clef publique dans git
+	 --> dans le chemin .ssh/id_rsa

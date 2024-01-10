@@ -1,0 +1,43 @@
+System.out.println("Started with : " + Thread.currentThread().getName());
+
+/// FROM HERE RUN FROM AN OTHER THREAD
+      Flux<Long> orderFlux = Flux.just(
+                  new Order(1L, 100.0),
+                  new Order(2L, 200.0),
+                  new Order(3L, 300.0)
+            )
+            .publishOn(Schedulers.single())
+            .map(order -> {
+               System.out.println("MAP 1  with : " + Thread.currentThread().getName());
+               return order.getId();
+            })
+            .publishOn(Schedulers.single())
+            .map(order -> {
+               System.out.println("MAP 2  with : " + Thread.currentThread().getName());
+               return order * 2;
+            })
+            .log();
+
+      orderFlux.subscribe(orderId -> System.out.println("SUB with : " + Thread.currentThread().getName()));
+      ///// TO HERE
+
+
+
+---------------------> not matter what a signle thread is executed
+
+Started with : main
+2022-05-30 15:45:28.313  INFO 15916 --- [           main] reactor.Flux.MapFuseable.1               : | onSubscribe([Fuseable] FluxMapFuseable.MapFuseableSubscriber)
+2022-05-30 15:45:28.313  INFO 15916 --- [           main] reactor.Flux.MapFuseable.1               : | request(unbounded)
+MAP 1  with : single-1
+MAP 1  with : single-1
+MAP 1  with : single-1
+MAP 2  with : single-1
+2022-05-30 15:45:28.313  INFO 15916 --- [       single-1] reactor.Flux.MapFuseable.1               : | onNext(2)
+SUB with : single-1
+MAP 2  with : single-1
+2022-05-30 15:45:28.313  INFO 15916 --- [       single-1] reactor.Flux.MapFuseable.1               : | onNext(4)
+SUB with : single-1
+MAP 2  with : single-1
+2022-05-30 15:45:28.313  INFO 15916 --- [       single-1] reactor.Flux.MapFuseable.1               : | onNext(6)
+SUB with : single-1
+2022-05-30 15:45:28.313  INFO 15916 --- [       single-1] reactor.Flux.MapFuseable.1               : | onComplete()

@@ -1,0 +1,58 @@
+/////////////////// NORMAL CASE
+// INIT LIST
+String[] array = new String[] {"JJ","MM","MM"};
+// CONVERT TO STREAM
+Flux<String> stringFlux = Flux.fromArray(array).log();
+// SHOW
+stringFlux.subscribe(System.out::println);
+
+2022-05-30 14:21:30.150  INFO 2964 --- [           main] reactor.Flux.Array.1                     : | onSubscribe([Synchronous Fuseable] FluxArray.ArraySubscription)
+2022-05-30 14:21:30.150  INFO 2964 --- [           main] reactor.Flux.Array.1                     : | request(unbounded)
+2022-05-30 14:21:30.150  INFO 2964 --- [           main] reactor.Flux.Array.1                     : | onNext(JJ)
+JJ
+2022-05-30 14:21:30.150  INFO 2964 --- [           main] reactor.Flux.Array.1                     : | onNext(MM)
+MM
+2022-05-30 14:21:30.150  INFO 2964 --- [           main] reactor.Flux.Array.1                     : | onNext(MM)
+MM
+2022-05-30 14:21:30.150  INFO 2964 --- [           main] reactor.Flux.Array.1                     : | onComplete()
+
+
+
+
+
+
+
+
+/////////////////// EMPTY CASE
+// INIT LIST
+String[] array = new String[] {};
+// CONVERT TO STREAM
+Flux<String> stringFlux = Flux.fromArray(array).log();
+// SHOW
+stringFlux.subscribe(System.out::println);
+
+2022-05-30 14:22:09.243  INFO 7548 --- [           main] reactor.Flux.Empty.1                     : onSubscribe([Fuseable] Operators.EmptySubscription)
+2022-05-30 14:22:09.243  INFO 7548 --- [           main] reactor.Flux.Empty.1                     : request(unbounded)
+2022-05-30 14:22:09.243  INFO 7548 --- [           main] reactor.Flux.Empty.1                     : onComplete()
+
+
+
+
+
+
+
+
+
+/////////////////// NULL CASE
+// INIT LIST
+String[] array = null;
+// CONVERT TO STREAM
+Flux<String> stringFlux = Flux.fromArray(array).log();
+// SHOW
+stringFlux.subscribe(System.out::println);
+
+
+
+Exception in thread "main" java.lang.NullPointerException
+	at reactor.core.publisher.Flux.fromArray(Flux.java:1104)
+	at com.reactive.ReactiveProject.ReactiveProjectApplication.main(ReactiveProjectApplication.java:22)

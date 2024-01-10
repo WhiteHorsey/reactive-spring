@@ -1,0 +1,3 @@
+Optional<String> optional = Optional.of("Jamal");
+Mono<String> mono = Mono.justOrEmpty(optional);
+mono.subscribe(System.out::println);

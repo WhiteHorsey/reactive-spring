@@ -1,0 +1,68 @@
+Reactive programming has some RULES: we call this rules reactive streams specification
+
+	1-Publisher : one who provides the data. (database, external service)
+
+		HAS ONE METHOD:
+
+			public interface Publisher<T> {
+				public void subscribe(Subscriber<? super T> s);
+			} ---> Subscriber will call this method to subscribe to the publisher
+			  ---> Ex: Say you want to subscribe to optt plateform, (optt plateform) is the publisher and i am the subscriber
+	
+
+
+
+	2-Subscriber : one who receives data.
+
+		HAS FOUR METHOD:
+
+			public interface Subscriber<T> {
+				public void onSubscribe(Subscription s); --> gets the confirmation like getting confirmation email from the palteform
+				public void onNext(T t);
+				public void onErrorThrowable t);
+				public void onComplete();
+			}
+	
+
+
+
+	3-Subscription : one to one relationship between Publisher and Subscriber.
+
+		HAS ONE METHOD:
+
+			public interface Subscription {
+				public void request(long n); --> Subscriber can ask n number of data from the publisher
+				public void cancel(); --> at any moment the subscriber doesn't want more data from the publisher.
+			}
+	
+
+
+
+	4-Processor : Represents processing stage for publisher and subscriber. Follows contracts of both Publisher and subscriber.
+
+		HAS ONE METHOD:
+
+			public interface Processor<T,R> extends Subscriber<T>, Publisher<R> {
+				
+			}
+
+
+
+/////////////////////////////////////// IMAGE EXPLENATION normal ///////////////////////////////////////
+
+1- Subscriber (application) call subscribe() to subscribe to the publisher (database has 20 records).
+2- Subscriber (application) gets the consifrmation from using onSubscribe() to the publisher (database has 20 records).
+3- Subscriber (application) call request(10) to get 10 number of data from the publisher (database has 20 records).
+4- Subscriber (application) gets 1 records using onNext() from the publisher (database has 20 records) --> 10 onNext() Events
+5-  until the 10 records are completed then onComplete() is executed or onError().
+
+
+
+
+/////////////////////////////////////// IMAGE EXPLENATION Cancel ///////////////////////////////////////
+
+1- Subscriber (application) call subscribe() to subscribe to the publisher (database has 20 records).
+2- Subscriber (application) gets the consifrmation from using onSubscribe() to the publisher (database has 20 records).
+3- Subscriber (application) call request(10) to get 10 number of data from the publisher (database has 20 records).
+4- Subscriber (application) gets 1 records using onNext() from the publisher (database has 20 records) --> 10 onNext() Events
+5- Subscriber (application) doesn't want any more data so execute cancel().

@@ -1,0 +1,58 @@
+MAP ---> when we map over an order flux for 1 input we will get 1 output.
+FLATMAP ---> when we map over an order flux for 1 input we will get N output.
+
+/// MAIN
+Flux<Long> longFlux = Flux.just(1L,2L,3L);
+
+Flux<Order> orderFlux = longFlux.flatMap(orderId -> getOrders(orderId)).log();
+
+orderFlux.subscribe(item -> System.out.println(item.getAmount()));
+
+/// STATIC
+public static Flux<Order> getOrders(Long orderId){
+      return Flux.just(
+            new Order(1L, "100.0"),
+            new Order(2L, "200.0"),
+            new Order(3L, "300.0")
+      );
+   }
+
+
+
+//////////// LOGS
+100.0
+200.0
+300.0 --> 1L
+100.0
+200.0
+300.0 --> 2L
+100.0
+200.0
+300.0 --> 3L
+
+
+
+
+
+///////////// LOGS WITH DETAILS
+2022-05-30 14:49:43.413  INFO 9500 --- [           main] reactor.Flux.FlatMap.1                   : onSubscribe(FluxFlatMap.FlatMapMain)
+2022-05-30 14:49:43.413  INFO 9500 --- [           main] reactor.Flux.FlatMap.1                   : request(unbounded)
+2022-05-30 14:49:43.413  INFO 9500 --- [           main] reactor.Flux.FlatMap.1                   : onNext(Order(id=1, amount=100.0))
+100.0
+2022-05-30 14:49:43.413  INFO 9500 --- [           main] reactor.Flux.FlatMap.1                   : onNext(Order(id=2, amount=200.0))
+200.0
+2022-05-30 14:49:43.413  INFO 9500 --- [           main] reactor.Flux.FlatMap.1                   : onNext(Order(id=3, amount=300.0))
+300.0
+2022-05-30 14:49:43.413  INFO 9500 --- [           main] reactor.Flux.FlatMap.1                   : onNext(Order(id=1, amount=100.0))
+100.0
+2022-05-30 14:49:43.413  INFO 9500 --- [           main] reactor.Flux.FlatMap.1                   : onNext(Order(id=2, amount=200.0))
+200.0
+2022-05-30 14:49:43.413  INFO 9500 --- [           main] reactor.Flux.FlatMap.1                   : onNext(Order(id=3, amount=300.0))
+300.0
+2022-05-30 14:49:43.413  INFO 9500 --- [           main] reactor.Flux.FlatMap.1                   : onNext(Order(id=1, amount=100.0))
+100.0
+2022-05-30 14:49:43.413  INFO 9500 --- [           main] reactor.Flux.FlatMap.1                   : onNext(Order(id=2, amount=200.0))
+200.0
+2022-05-30 14:49:43.413  INFO 9500 --- [           main] reactor.Flux.FlatMap.1                   : onNext(Order(id=3, amount=300.0))
+300.0
+2022-05-30 14:49:43.413  INFO 9500 --- [           main] reactor.Flux.FlatMap.1                   : onComplete()

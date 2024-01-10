@@ -1,0 +1,2 @@
+wordpress: https://fr.wordpress.org/download/
+wampserver : https://www.clubic.com/telecharger-fiche27009-wampserver.html

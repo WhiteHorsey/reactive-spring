@@ -1,0 +1,10 @@
+In spring app, we have an embeded tomcat server
+for each request we create a thread, it will communicate with db , it will do nothing while waiting for db to respond, when the db
+responds he returns the data and the thread is free.
+
+BY DEFAULT WE CAN REACH 200 THREADS AT A TIME ANY REQUEST THAT COMES AFTER WILL WAIT UNTIL A  THREAD IS FREE TO BE CREATED UNTILL THEN EVERY 
+REQUEST IS BLOCKED? EACH THREAD CAN COST 1MB --> 200 AT TOP WITH 200 THREADS
+
+TO INCREASE MAX THREADS --> PROPERTY : server.tomcat.threads.max=number (200 default = max) --> out of memory error
+
+--> to counter this problem we can use mltiple instances runnnig along with a load balancer

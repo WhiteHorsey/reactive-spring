@@ -1,0 +1,7 @@
+//////// ERROR , ONCOMPLETE
+Flux<String> stringFlux = Flux.just("Jamal", "Mounir", "Mouad")
+            .concatWith(Flux.error(new RuntimeException()))
+            .concatWithValues("Adnane").log();
+stringFlux.subscribe(System.out::println,
+            e -> System.out.println(e.getMessage()), ----------> Case error
+            () -> System.out.println("Success"));    ----------> Case Complete
